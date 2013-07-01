@@ -9,5 +9,4 @@ public class SimpleEvent extends AbstractEvent implements Event {
 		// TODO Auto-generated method stub
 
 	}
-
 }
