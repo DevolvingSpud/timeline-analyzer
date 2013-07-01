@@ -1,8 +1,10 @@
 package codesample.timeline;
 
+import org.joda.time.DateTime;
+
 public interface Event {
-	
-	public long getStart();
-	public long getEnd();
+		
+	public DateTime getStart();
+	public DateTime getEnd();
 
 }
