@@ -26,5 +26,4 @@ public class TestNamedEvent {
 		assertEquals(name, e.getName());
 		assertEquals(start, e.getStart());
 	}
-
 }
