@@ -1,4 +1,4 @@
-package codesample.timeline;
+package codesample.timeline; 
 
 public abstract class AbstractEvent implements Event {
 	
