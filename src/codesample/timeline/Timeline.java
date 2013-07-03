@@ -13,10 +13,7 @@ import org.joda.time.DateTime;
 
 public class Timeline implements Collection<Event> {
 	
-	
-	private HashSet<Event> eventSet = new HashSet<Event>();
 	private TreeMap<DateTime, HashSet<Event>> eventMap = new TreeMap<DateTime, HashSet<Event>>();
-	
 	
 	@Override
 	public boolean add(Event e) {
@@ -24,25 +21,36 @@ public class Timeline implements Collection<Event> {
 		{
 			if(!eventMap.containsKey(e.getStart()))   // If the DateTime is not there create a new key and hash set
 			{
-				eventMap.put(e.getStart(), eventSet); // Places the DateTime and an empty Set into the map
-				eventSet.add(e);	 				  // Adds the new event to the empty Set in the given DateTime
-				return true;
+				eventMap.put(e.getStart(), new HashSet<Event>()); // Places the DateTime and an empty Set into the map
 			}
-			else 									  // If the Key already exists Add to the existing set
-			{
-				eventSet.add(e);
+				eventMap.get(e.getStart()).add(e); // Adds the new event to the empty Set in the given DateTime
 				return true;
-			}
 		}
 			return false;
 	}
 
 	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Timeline has ").append(eventMap.keySet().size()).append(" time keys");
+		for (DateTime key : eventMap.keySet()) {
+			HashSet<Event> value = eventMap.get(key);
+			sb.append("\n ").append(key).append(" has ").append(value.size()).append(" events: ");
+			for (Event e : value) {
+				sb.append("\t").append(e);
+			}
+		}
+		return sb.toString();
+	}
+
+	@Override
 	public boolean addAll(Collection<? extends Event> c) {
 		
-		if (c != null)
+		if (c !=null)
 		{
-//			eventSet.addAll(c);
+			Iterator<? extends Event> eventIter = c.iterator();
+			while (eventIter.hasNext())
+				this.add(eventIter.next());
 			return true;
 		}
 		return false;
@@ -51,12 +59,12 @@ public class Timeline implements Collection<Event> {
 	@Override
 	public void clear() {
 		eventMap.clear(); // Clears the map
-		eventSet.clear(); // Clears remaining sets
 	}
 
 	@Override
 	public boolean contains(Object o) {
-		if (!(o instanceof Event))
+		
+		if (o==null || !(o instanceof Event))
 		{
 			return false;
 		}
@@ -64,7 +72,7 @@ public class Timeline implements Collection<Event> {
 		Event myEvent = (Event)o;
 		DateTime startTime = myEvent.getStart();
 		
-		if (eventSet.contains(myEvent) || eventMap.containsKey(startTime))
+		if (eventMap.containsKey(startTime)) //If there is a Key there must be an event, therefore if key = contains.
 		{
 			return true;
 		}
@@ -73,17 +81,21 @@ public class Timeline implements Collection<Event> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		if(eventSet.containsAll(c))
+		
+		if (c !=null)
 		{
-			eventSet.containsAll(c);
-			return true;
+			Iterator<?> eventIter = c.iterator();
+			while (eventIter.hasNext())
+			{
+				this.contains(eventIter.next());
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public boolean isEmpty(){
-		if (eventMap.isEmpty() && eventSet.isEmpty()) // Makes sure both the map AND set are empty
+		if (eventMap.isEmpty()) // returns true if the map is empty
 		{
 			return true;
 		}
@@ -92,40 +104,62 @@ public class Timeline implements Collection<Event> {
 
 	@Override
 	public Iterator<Event> iterator() {
-		return null;
+		return iterator();
 	}
 
 	@Override
 	public boolean remove(Object o) {
-		if (o==null || !(o instanceof Event))
+		if (o==null || !(o instanceof Event)) //if the object is null or not event return false, cannot remove
 		{
 			return false;
 		}
+		
 		Event myEvent = (Event)o;
 		DateTime startTime = myEvent.getStart();
 		
-		if (!eventMap.containsKey(startTime))
+		if (!eventMap.containsKey(startTime)) // if the eventMap does not contain the key return false, cannot remove
 		{
 			return false;
 		}
 		
-		HashSet<Event> events = eventMap.get(startTime);
+		if (eventMap.get(myEvent.getStart()).size()==1) // If the size of the set contains one event, remove the key
+		{
+			eventMap.remove(myEvent.getStart());
+			return true;
+			// remove key
+		}
+				
+		HashSet<Event> events = eventMap.get(startTime); // else, remove the event located at a given key
 		return events.remove(myEvent);
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		return eventMap.values().removeAll(c);
+		if (c !=null)
+		{
+			Iterator<?> eventIter = c.iterator(); // iterate through the collection
+			while (eventIter.hasNext())           // remove all instances in eventMap from collection
+				this.remove(eventIter.next());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		return eventMap.values().retainAll(c);
+		if (c !=null)
+		{
+			Iterator<?> eventIter = c.iterator(); // iterate through the collection
+			while (eventIter.hasNext())           // remove all instances in eventMap from collection
+				this.remove(eventIter.next());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public int size() {
-		return eventMap.size()+1;
+		return eventMap.size(); // returns the size of the evenMap
 	}
 
 	@Override
