@@ -109,9 +109,11 @@ public class TestTimeline {
 	public void testContainsAll(){
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(2003,11,25,0,0);
+		DateTime time2 = new DateTime(2001,10,25,0,0);
+		
 		Event a = new NamedEvent("EventA", time);
 		Event b = new NamedEvent("EventB", start);
-//		Event c = new NamedEvent("EventB", start);
+		Event c = new NamedEvent("EventC", start);
 		
 		eventMap.add(a);
 		eventMap.add(b);
@@ -119,6 +121,7 @@ public class TestTimeline {
 		ArrayList<Event> list = new ArrayList<Event>();
 		list.add(a);
 		list.add(b);
+		list.add(c);
 		
 		assertTrue(eventMap.containsAll(list));
 	}
@@ -143,12 +146,12 @@ public class TestTimeline {
 		DateTime time = new DateTime(2003,12,25,0,0);
 		
 		Event e = new NamedEvent("Event", start);
-//		Event a = new NamedEvent("EventA", time);
+		Event a = new NamedEvent("EventA", time);
 		
 		assertTrue(eventMap.add(e));
 //		assertTrue(eventMap.add(a));
 		assertTrue(eventMap.remove(e));
-//		assertTrue(eventMap.isEmpty());
+		assertTrue(eventMap.isEmpty());
 		
 //		assertTrue(eventMap.remove(a));
 //		assertTrue(eventMap.contains(a));
@@ -187,7 +190,7 @@ public class TestTimeline {
 		
 		Event e = new NamedEvent("Event", start);
 		Event a = new NamedEvent("EventA", time);
-		Event c = new NamedEvent("EventC", time2);
+		Event c = new NamedEvent("EventC", time);
 	
 		ArrayList<Event> list = new ArrayList<Event>();
 		list.add(e);
@@ -197,8 +200,13 @@ public class TestTimeline {
 		assertTrue(eventMap.add(e));
 		assertTrue(eventMap.add(a));
 		assertTrue(eventMap.add(c));
+		
 		assertTrue(eventMap.retainAll(list));
-		assertFalse(eventMap.contains(c));
+//		assertFalse(eventMap.retainAll(list));
+		
+//		assertTrue(eventMap.contains(e));
+//		assertTrue(eventMap.contains(a));
+//		assertFalse(eventMap.contains(c));
 	}
 	
 	@Test
@@ -216,7 +224,20 @@ public class TestTimeline {
 	
 	@Test
 	public void testToArray(){
-		fail();
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		DateTime time2 = new DateTime(2003,9,25,0,0);
+		
+		Event e = new NamedEvent("Event", start);
+		Event a = new NamedEvent("EventA", time);
+		Event c = new NamedEvent("EventC", time2);
+	
+		ArrayList<Event> list = new ArrayList<Event>();
+		list.add(e);
+		list.add(a);
+		list.add(c);
+		
+		System.out.println(eventMap.toArray());
 	}
 	
 	@Test
