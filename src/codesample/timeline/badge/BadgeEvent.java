@@ -12,7 +12,7 @@ import codesample.timeline.Event;
  * @author Lamont
  *
  */
-public class BadgeEvent implements Event {
+public class BadgeEvent implements Event, Comparable<BadgeEvent> {
 	
 	/**
 	 * An enumeration for the type of events that can occur.
@@ -160,6 +160,13 @@ public class BadgeEvent implements Event {
 		StringBuilder sb = new StringBuilder();
 		sb.append("BadgeEvent [").append(timestamp).append("]: ").append(name).append(" was ").append(eventType).append(" at ").append(location);
 		return sb.toString();
+	}
+
+	public int compareTo(BadgeEvent arg0) {
+		if((timestamp == null) || (arg0.timestamp == null)) {
+			return arg0.timestamp == null ? 0 : 1;
+		}
+		return timestamp.compareTo(arg0.timestamp);
 	}
 	
 
