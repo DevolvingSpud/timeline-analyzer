@@ -12,27 +12,27 @@ import org.junit.Test;
 
 public class TestTimeline {
 	
-	Timeline eventMap;
+	Timeline timeline;
 
 	@Before
 	public void setUp() throws Exception {
-		eventMap = new Timeline();
+		timeline = new Timeline();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		eventMap = null;
+		timeline = null;
 	}
 
 	@Test
 	public void testTimeline() {
 		
 		// Make sure the map was created
-		assertNotNull(eventMap); 
+		assertNotNull(timeline); 
 		
 		// Make sure that the map is empty
 		try{ 
-			assertTrue(eventMap.isEmpty());
+			assertTrue(timeline.isEmpty());
 		}
 		catch(NullPointerException e){}
 	}
@@ -49,13 +49,13 @@ public class TestTimeline {
 		
 		assertFalse(e.equals(x));
 		
-		assertTrue(eventMap.add(e));
-//		System.out.println(eventMap);
-		assertTrue(eventMap.add(x));
-		assertTrue(eventMap.add(e3));
-		assertTrue(eventMap.add(e4));
-		assertTrue(eventMap.add(e5));
-//		System.out.println(eventMap);
+		assertTrue(timeline.add(e));
+//		System.out.println(timeline);
+		assertTrue(timeline.add(x));
+		assertTrue(timeline.add(e3));
+		assertTrue(timeline.add(e4));
+		assertTrue(timeline.add(e5));
+//		System.out.println(timeline);
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class TestTimeline {
 //		list.add(c);
 		Collections.addAll(list,a,b,c);
 		
-		assertTrue(eventMap.addAll(list));
+		assertTrue(timeline.addAll(list));
 		
 //		assertTrue(eventMap.contains(b));
 	}
@@ -86,13 +86,13 @@ public class TestTimeline {
 		Event b = new NamedEvent("EventB", time);
 		Event c = new NamedEvent("EventC", time2);
 		
-		eventMap.add(a);
-		eventMap.add(b);
-		eventMap.add(c);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
 		
-		eventMap.clear();
+		timeline.clear();
 		
-		assertTrue(eventMap.isEmpty());
+		assertTrue(timeline.isEmpty());
 	}
 	
 	@Test
@@ -100,9 +100,9 @@ public class TestTimeline {
 		
 		DateTime start = new DateTime(2004,12,25,0,0);
 		Event e = new NamedEvent("New Event",start);
-		eventMap.add(e);
+		timeline.add(e);
 		
-		assertTrue(eventMap.contains(e));
+		assertTrue(timeline.contains(e));
 	}
 	
 	@Test
@@ -115,29 +115,28 @@ public class TestTimeline {
 		Event b = new NamedEvent("EventB", start);
 		Event c = new NamedEvent("EventC", start);
 		
-		eventMap.add(a);
-		eventMap.add(b);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
 		
 		ArrayList<Event> list = new ArrayList<Event>();
 		list.add(a);
 		list.add(b);
 		list.add(c);
 		
-		assertTrue(eventMap.containsAll(list));
+		assertTrue(timeline.containsAll(list));
 	}
 	
 	
 	@Test
 	public void testisEmpty(){
-		assertTrue(eventMap.isEmpty());
+		assertTrue(timeline.isEmpty());
 	}
 	
 	@Test
 	public void testIterator(){
 		fail();
 	}
-	
-	
 	
 	@Test
 	public void testRemove(){
@@ -148,10 +147,10 @@ public class TestTimeline {
 		Event e = new NamedEvent("Event", start);
 		Event a = new NamedEvent("EventA", time);
 		
-		assertTrue(eventMap.add(e));
+		assertTrue(timeline.add(e));
 //		assertTrue(eventMap.add(a));
-		assertTrue(eventMap.remove(e));
-		assertTrue(eventMap.isEmpty());
+		assertTrue(timeline.remove(e));
+		assertTrue(timeline.isEmpty());
 		
 //		assertTrue(eventMap.remove(a));
 //		assertTrue(eventMap.contains(a));
@@ -172,10 +171,10 @@ public class TestTimeline {
 		list.add(a);
 		list.add(c);
 		
-		assertTrue(eventMap.add(e));
-		assertTrue(eventMap.add(a));
-		assertTrue(eventMap.add(c));
-		assertTrue(eventMap.removeAll(list));
+		assertTrue(timeline.add(e));
+		assertTrue(timeline.add(a));
+		assertTrue(timeline.add(c));
+		assertTrue(timeline.removeAll(list));
 		
 //		assertFalse(eventMap.contains(c));
 //		assertTrue(eventMap.isEmpty());
@@ -188,25 +187,29 @@ public class TestTimeline {
 		DateTime time = new DateTime(2003,12,25,0,0);
 		DateTime time2 = new DateTime(2003,9,25,0,0);
 		
-		Event e = new NamedEvent("Event", start);
-		Event a = new NamedEvent("EventA", time);
+		Event a = new NamedEvent("EventE", start);
+		Event b = new NamedEvent("EventA", time);
 		Event c = new NamedEvent("EventC", time);
+		Event d = new NamedEvent("EventD", time2);
 	
 		ArrayList<Event> list = new ArrayList<Event>();
-		list.add(e);
 		list.add(a);
+		list.add(b);
 //		list.add(c);
+//		list.add(d);
 		
-		assertTrue(eventMap.add(e));
-		assertTrue(eventMap.add(a));
-		assertTrue(eventMap.add(c));
+		assertTrue(timeline.add(a));
+		assertTrue(timeline.add(b));
+		assertTrue(timeline.add(c));
 		
-		assertTrue(eventMap.retainAll(list));
-//		assertFalse(eventMap.retainAll(list));
+		assertEquals(3,timeline.size());
+			
+		assertTrue(timeline.retainAll(list));
+//		assertFalse(timeline.retainAll(list));
 		
-//		assertTrue(eventMap.contains(e));
-//		assertTrue(eventMap.contains(a));
-//		assertFalse(eventMap.contains(c));
+		assertTrue(timeline.contains(a));
+		assertTrue(timeline.contains(b));
+		assertFalse(timeline.contains(c));
 	}
 	
 	@Test
@@ -214,12 +217,14 @@ public class TestTimeline {
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(2003,12,25,0,0);
 		Event e = new NamedEvent("Event", start);
-		Event a = new NamedEvent("EventA", time);
+		Event a = new NamedEvent("EventA", start);
+		Event c = new NamedEvent("EventC", time);
 		
-		assertTrue(eventMap.add(e));
-		assertTrue(eventMap.add(a));
+		assertTrue(timeline.add(e));
+		assertTrue(timeline.add(a));
+		assertTrue(timeline.add(c));
 		
-		assertEquals(2,eventMap.size());
+		assertEquals(3,timeline.size());
 	}
 	
 	@Test
@@ -228,21 +233,36 @@ public class TestTimeline {
 		DateTime time = new DateTime(2003,12,25,0,0);
 		DateTime time2 = new DateTime(2003,9,25,0,0);
 		
-		Event e = new NamedEvent("Event", start);
-		Event a = new NamedEvent("EventA", time);
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", time);
 		Event c = new NamedEvent("EventC", time2);
 	
-		ArrayList<Event> list = new ArrayList<Event>();
-		list.add(e);
-		list.add(a);
-		list.add(c);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
 		
-		System.out.println(eventMap.toArray());
+//		System.out.println(timeline.toArray());
+		System.out.println(java.util.Arrays.toString(timeline.toArray()));
+//		System.out.print(timeline.what());
 	}
 	
 	@Test
-	public void testToArrayT(){
-		fail();
+	public <T> void testToArrayT(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		DateTime time2 = new DateTime(2003,9,25,0,0);
+		
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", time);
+		Event c = new NamedEvent("EventC", time2);
+	
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		
+		T[] result =(T[]) timeline.toArray();
+		
+		System.out.println(java.util.Arrays.toString(result));
 	}
 
 	

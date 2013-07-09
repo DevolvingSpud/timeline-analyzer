@@ -1,9 +1,12 @@
 package codesample.timeline;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -21,7 +24,7 @@ public class Timeline implements Collection<Event> {
 	public boolean add(Event e) {
 		return addToEventMap(eventMap, e);
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -107,15 +110,113 @@ public class Timeline implements Collection<Event> {
 
 	@Override
 	public Iterator<Event> iterator() {
+		return new TimelineIterator();
 		
-		Iterator<Entry<DateTime, HashSet<Event>>> eventIter = eventMap.entrySet().iterator();
-		
-		while(eventIter.hasNext())
-		{
-			eventMap.Entry pairs = (eventMap)eventIter.next();
-		}
-		return iterator();
 	}
+	
+	/**
+     * This Iterator is designed to walk through the Timeline as if it were an
+     * asymmetrical 2-dimensional array. To do this, we're only keeping track of
+     * indexKey and indexValue and doing the navigation through the underlying
+     * eventMap to determine what will actually work.
+     *
+     * 
+     *
+     */
+    private class TimelineIterator implements ListIterator<Event>
+
+    {
+        private int indexKey = 0;
+        private int indexValue = 0;
+        Object[] values = new Object[0];
+        
+        protected TimelineIterator()
+        {
+            if (eventMap != null && !eventMap.isEmpty())
+            {
+                Collection<HashSet<Event>> valueCollection = eventMap.values();
+                if (valueCollection != null)
+                {
+                    values = valueCollection.toArray();
+                }
+            }            
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+                // Case #1: [on current key, there is a value next] => return true.
+                if ((indexKey < values.length) && values.length == indexValue+1)
+                {
+                    
+                    return true;
+                }
+                
+                // Case #2: [on current key, there is not a value next]. Go to next key: there is not another key => false.
+                if (indexKey+1 < values.length && indexValue < )
+                {
+                    
+                    return false;
+                }
+                
+                // Case #3: [on current key, there is not a value next]. Go to next key: there is another key ==> true.
+                if ()
+                {
+                    
+                    return true;
+                }
+        }
+
+        @Override
+        public Event next()
+        {
+            
+            return null;
+        }
+
+        @Override
+        public boolean hasPrevious()
+        {
+            return false;
+        }
+
+        @Override
+        public Event previous()
+        {
+            return null;
+        }
+
+        @Override
+        public int nextIndex()
+        {
+            return 0;
+        }
+
+        @Override
+        public int previousIndex() {
+            return 0;
+        }
+
+        @Override
+        public void remove()
+        {
+
+        }
+
+        // not a necessary method for our case.
+        @Override
+        public void set(Event e)
+        {
+            throw new UnsupportedOperationException(
+                    "We're not implementing set!");
+        }
+
+        @Override
+        public void add(Event e)
+        {
+
+        }
+    }
 
 	@Override
 	public boolean remove(Object o) {
@@ -156,55 +257,86 @@ public class Timeline implements Collection<Event> {
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		if (c !=null)
+		
+		if(c!=null)
 		{
-//			for (Object next:c) // remove all instances in eventMap from collection
-//			{
-//				if (!c.contains(next))
-//				{
-//					this.remove(next);
-//				}
-//			}
-//			return true;
-			
-//			HashSet<Event> set = new HashSet<Event>();
-			
 			TreeMap<DateTime, HashSet<Event>> newEventMap = new TreeMap<DateTime, HashSet<Event>>();
-
+			
 			for (Object e: c)
 			{
-				if (this.contains(e) && e instanceof Event)
+				if (e instanceof Event && this.contains(e))
 				{
 					addToEventMap(newEventMap, (Event)e);
 				}
 			}
 			
-			if (eventMap.size() == newEventMap.size())
+//			System.out.println("EventMap size is: "+this.size());
+//			System.out.println("newEventMap size is: "+newEventMap.size());
+			
+			if (sizeEventMap(eventMap) == sizeEventMap(newEventMap))
 			{
 				return false;
 			}
 			
-			eventMap = newEventMap;
+			eventMap= newEventMap;
 			return true;
-		}
-		return false;
+		}		
+	return false;
+		
 	}
 
 	@Override
-	public int size() {
-		return eventMap.size(); // returns the size of the evenMap
+	public int size() {	
+		return sizeEventMap(eventMap);
 	}
 
 	@Override
 	public Object[] toArray() {
-		return eventMap.values().toArray();
+		if (!eventMap.isEmpty())
+		{
+//			Object [] list = new Object[sizeEventMap(eventMap)];
+			ArrayList<Event> list = new ArrayList<Event>();
+			for(DateTime key: eventMap.keySet())
+			{
+				for(Event e: eventMap.get(key))
+				{		
+					list.add(e);	
+				}
+			}	
+			return list.toArray();
+		}
+	
+		Object [] result = null;
+		return result;
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a) {
-		return eventMap.values().toArray(a);
+		if (!eventMap.isEmpty())
+		{
+			ArrayList<Event> list = new ArrayList<Event>();
+			
+			for(DateTime key: eventMap.keySet())
+			{
+				for(Event e: eventMap.get(key))
+				{
+					for(int i=0; i<sizeEventMap(eventMap); i++)
+					{
+						System.out.println("[");
+						list.add(e);
+						System.out.println("]");
+					}
+				}
+			}	
+			return list.toArray(a);
+		}
+	
+		T [] result = null;
+		return result;
 	}
 	
+	
+	// Private methods for retainAll
 	private boolean addToEventMap(TreeMap<DateTime, HashSet<Event>> set, Event e) {
 		if (e != null)
 		{
@@ -218,6 +350,35 @@ public class Timeline implements Collection<Event> {
 			return false;
 	}
 	
+	private int sizeEventMap(TreeMap<DateTime, HashSet<Event>> map) {
+		
+		int count =0;
+
+		if (!map.isEmpty())
+		{
+			for(HashSet<Event> set: map.values())
+			{
+				count += set.size();
+			}
+				return count;
+		}
+		return 0;
+	}
+	
+	public String what(){
+		return arrayToString(eventMap);
+	}
+	
+	private String arrayToString(TreeMap<DateTime, HashSet<Event>> map){
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Timeline: ");
+		for(DateTime key: map.keySet())
+			for(Event e: map.get(key))
+				sb.append(e).append(" ");
+		return sb.toString();
+	}
+		
 //	public Event startedDuring(DateTime timeStart, DateTime timeEnd){
 //		return 
 //	}
