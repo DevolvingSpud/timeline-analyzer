@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
@@ -54,10 +55,14 @@ public abstract class BadgeEntryExitRecord implements Event,
 			// If this event matches the date, add it to the list.
 			// (SN: I know this is redundant, but I keep going back and forth
 			// about passing in the LocalDate for this event.)
-			if (this.localDate.equals(daEvent.getStart().toLocalDate())
-					&& !isExit(daEvent)) {
+			if (this.localDate.equals(daEvent.getStart().toLocalDate())) {
 				this.badgeEvents.add(daEvent);
+				if (!isExit(daEvent)) {
+					continue;
+				}
 			}
+			// Invariant: It's not in the list...so break!
+			break;
 		}
 	}
 
@@ -84,7 +89,7 @@ public abstract class BadgeEntryExitRecord implements Event,
 			return localDate.toDateTime(new LocalTime(23, 59, 59));
 		}
 		Collections.sort(badgeEvents);
-		return badgeEvents.get(badgeEvents.size() - 1).getStart();
+		return badgeEvents.get(badgeEvents.size() - 1).getEnd();
 	}
 
 	/**
@@ -119,6 +124,14 @@ public abstract class BadgeEntryExitRecord implements Event,
 	 */
 	public List<BadgeEvent> getBadgeEvents() {
 		return badgeEvents;
+	}
+	
+	/**
+	 * 
+	 * @return the period of time that was spent in the facility
+	 */
+	public Duration getElapsedTime() {
+		return new Duration(this.getStart(), this.getEnd());
 	}
 
 	/*
@@ -174,7 +187,9 @@ public abstract class BadgeEntryExitRecord implements Event,
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(BadgeEntryExitRecord o) {
