@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -242,7 +243,7 @@ public class TestTimeline {
 		timeline.add(c);
 		
 //		System.out.println(timeline.toArray());
-		System.out.println(java.util.Arrays.toString(timeline.toArray()));
+//		System.out.println(java.util.Arrays.toString(timeline.toArray()));
 //		System.out.print(timeline.what());
 	}
 	
@@ -262,27 +263,91 @@ public class TestTimeline {
 		
 		T[] result =(T[]) timeline.toArray();
 		
-		System.out.println(java.util.Arrays.toString(result));
+//		System.out.println(java.util.Arrays.toString(result));
+	}
+	
+	@Test
+	public void testHasNext(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		DateTime time2 = new DateTime(2003,9,25,0,0);
+		
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", start);
+		Event c = new NamedEvent("EventC", start);
+		
+		//Case 1
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		Iterator<Event> i = timeline.iterator();
+		i.next();
+		
+//		i.next();
+		assertTrue(i.hasNext());
+		
+		//Case 2
+//		Event a = new NamedEvent("Event", start);
+//		Event b = new NamedEvent("EventA", time);
+//		timeline.add(a);
+//		timeline.add(b);
+//		Iterator<Event> i = timeline.iterator();
+//		assertTrue(i.hasNext());
+//		
+		//Case 3
+//		Event a = new NamedEvent("Event", start);
+//		timeline.add(a);
+//		Iterator<Event> i = timeline.iterator();
+//		assertFalse(i.hasNext());
+//		
 	}
 
+	@Test 
+	public void testNext(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		DateTime time2 = new DateTime(2003,9,25,0,0);
+		
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", time);
+		Event c = new NamedEvent("EventC", time2);
 	
-	@Test
-	public void testStartedDuring(){
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		
+		Iterator<Event> i = timeline.iterator();
+		assertEquals(a,i.next());
 		
 	}
 	
 	@Test
-	public void testEndingDuring(){
+	public void testHasPrevious(){
 		
 	}
 	
 	@Test
-	public void testEventBefore(){
+	public void testPrevious(){
 		
 	}
 	
 	@Test
-	public void testEventAfter(){
+	public void testNextIndex(){
+		
+	}
+	
+	@Test
+	public void testPreviousIndex(){
+		
+	}
+	
+	@Test
+	public void testIterRemove(){
+		
+	}
+	
+	@Test
+	public void testIterAdd(){
 		
 	}
 }

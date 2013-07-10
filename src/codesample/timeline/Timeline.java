@@ -1,18 +1,7 @@
 package codesample.timeline;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import org.joda.time.DateTime;
 
@@ -126,9 +115,10 @@ public class Timeline implements Collection<Event> {
     private class TimelineIterator implements ListIterator<Event>
 
     {
-        private int indexKey = 0;
-        private int indexValue = 0;
-        Object[] values = new Object[0];
+        private int eventSetIndex = 0;
+        private int eventIndex = 0;
+        
+        Object[] eventSets = new Object[0];
         
         protected TimelineIterator()
         {
@@ -137,41 +127,63 @@ public class Timeline implements Collection<Event> {
                 Collection<HashSet<Event>> valueCollection = eventMap.values();
                 if (valueCollection != null)
                 {
-                    values = valueCollection.toArray();
+                    eventSets = valueCollection.toArray();
                 }
             }            
         }
 
-        @Override
-        public boolean hasNext()
+        @SuppressWarnings("unchecked")
+		@Override
+        public boolean hasNext() 
         {
-                // Case #1: [on current key, there is a value next] => return true.
-                if ((indexKey < values.length) && values.length == indexValue+1)
-                {
-                    
-                    return true;
-                }
+        	
+        	HashSet<Event> hashSet = (HashSet<Event>)eventSets[eventSetIndex];
+            if (hashSet.size()> eventIndex+1)
+            {
+               return true;
+            }
+            
+            if (eventSetIndex < eventSets.length && eventSets[eventSetIndex+1]!=null)
+            {
+                return true;
+            }
                 
-                // Case #2: [on current key, there is not a value next]. Go to next key: there is not another key => false.
-                if (indexKey+1 < values.length && indexValue < )
-                {
-                    
-                    return false;
-                }
-                
-                // Case #3: [on current key, there is not a value next]. Go to next key: there is another key ==> true.
-                if ()
-                {
-                    
-                    return true;
-                }
+            if (hashSet.size() < eventIndex && eventSets[eventSetIndex+1]==null)
+            {
+               return false;
+            }
+            else
+            	return false;
         }
 
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
         public Event next()
         {
+        	HashSet<Event> hashSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	HashSet<Event> hashSet2 = (HashSet<Event>)eventSets[eventSetIndex];
+            Event [] result =  (Event[]) hashSet2.toArray() ;
+            if (hashSet.size()> eventIndex+1)
+            {
+               eventIndex+=1;
+               return result[eventIndex];
+               //return that element
+            }
             
-            return null;
+            if (eventSetIndex < eventSets.length && eventSets[eventSetIndex+1]!=null) //return the first element of that next set
+            {
+                eventSetIndex+=1;
+                eventIndex=0;
+                return result[0];
+            }
+            
+            if (hashSet.size() < eventIndex && eventSets[eventSetIndex+1]==null)
+            {
+               throw new NoSuchElementException();
+            }
+            
+            else
+            	return null;
         }
 
         @Override
