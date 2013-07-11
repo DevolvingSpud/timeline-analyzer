@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import org.joda.time.DateTime;
@@ -12,17 +13,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestTimeline {
+public class TestTimeline 
+{
 	
 	Timeline timeline;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception 
+	{
 		timeline = new Timeline();
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() throws Exception 
+	{
 		timeline = null;
 	}
 
@@ -360,19 +364,62 @@ public class TestTimeline {
 		i.next();
 //		i.next();
 //		i.next();
-		
-		
+	}
+	
+	
+	////****Tests for testHasPrevious()****\\\\
+	
+	@Test
+	public void testHasPreviousOnFirstEventIndex() //case3 //supposed to be a wrong situation.
+	{
+		DateTime start = new DateTime(2004,12,25,0,0);
+		Event a = new NamedEvent("Event", start);
+		timeline.add(a);
+		//<2004,12,25,0,0> : [Event]
+	
+		ListIterator<Event> i = timeline.listiterator();
+		assertFalse(i.hasNext());
 	}
 	
 	@Test
-	public void testHasPrevious(){
+	public void testHasPreviousEventIndex() //case1 //supposed to be a right situation.
+	{
+
+		DateTime time = new DateTime(2003,12,25,0,0);
+		Event b = new NamedEvent("EventA", time);
+		Event c = new NamedEvent("EventC", time);
+		timeline.add(b);
+		timeline.add(c);
+		//<2003,12,25,0,0> : [EventA][EventC]
 		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next();
+		assertTrue(i.hasPrevious());
 	}
 	
 	@Test
-	public void testPrevious(){
+	public void testHasPreviousEventSet() //case2 //supposed to be a right situation.
+	{
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		//DateTime time2 = new DateTime(2003,9,25,0,0);
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", time);
+		timeline.add(a);
+		timeline.add(b);
 		
+		//<2004,12,25,0,0> : [Event]
+		//<2003,12,25,0,0> : [EventA]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next();
+		assertTrue(i.hasPrevious());
 	}
+	
+	////****Tests for testPrevious()****\\\\
+	
 	
 	@Test
 	public void testNextIndex(){

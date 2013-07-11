@@ -4,8 +4,12 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-public class Timeline implements Collection<Event> {
+public class Timeline implements Collection<Event> 
+{
+	public static final DateTimeFormatter fmt = DateTimeFormat.forPattern("mm/dd/yyyy  kk:mm"); //"month/day/year  24hour:minutes of the hour"
 	
 	private TreeMap<DateTime, HashSet<Event>> eventMap = new TreeMap<DateTime, HashSet<Event>>();
 	
@@ -14,20 +18,6 @@ public class Timeline implements Collection<Event> {
 		return addToEventMap(eventMap, e);
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Timeline has ").append(eventMap.keySet().size()).append(" time keys");
-		for (DateTime key : eventMap.keySet()) {
-			HashSet<Event> value = eventMap.get(key);
-			sb.append("\n ").append(key).append(" has ").append(value.size()).append(" events: ");
-			for (Event e : value) {
-				sb.append("\t").append(e);
-			}
-		}
-		return sb.toString();
-	}
-
 	@Override
 	public boolean addAll(Collection<? extends Event> c) {
 		
@@ -98,9 +88,14 @@ public class Timeline implements Collection<Event> {
 	}
 
 	@Override
-	public Iterator<Event> iterator() {
+	public Iterator<Event> iterator()
+	{
 		return new TimelineIterator();
-		
+	}
+	
+	public ListIterator<Event> listiterator()
+	{
+		return new TimelineIterator();
 	}
 	
 	/**
@@ -188,7 +183,6 @@ public class Timeline implements Collection<Event> {
             return nextEvent;
         }
 
-        @SuppressWarnings("unchecked")
 		@Override
         public boolean hasPrevious()
         {
@@ -392,5 +386,23 @@ public class Timeline implements Collection<Event> {
 				return count;
 		}
 		return 0;
+	}
+	public String toString() // try to use 'fmt' to later better the format of the keys.
+	{
+		StringBuilder sb = new StringBuilder();
+		//sb.append(thing you want to append on to the string);
+		for (DateTime key: eventMap.keySet()) //the keys.
+		{
+			sb.append("[<").append(key).append(">: ");
+			for (Event e: eventMap.get(key)) //gets each individual event  
+			{
+				sb.append("[").append(e).append("]");
+				
+			}
+			sb.append("\n");
+		}
+		
+		
+		return sb.toString();
 	}
 }
