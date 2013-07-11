@@ -158,7 +158,7 @@ public class BadgeEvent implements Event, Comparable<BadgeEvent> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("BadgeEvent [").append(timestamp).append("]: ").append(name).append(" was ").append(eventType).append(" at ").append(location);
+		sb.append("BadgeEvent [").append(timestamp.toString(Format.DATE_TIME)).append("]: ").append(name).append(" was ").append(eventType).append(" at ").append(location);
 		return sb.toString();
 	}
 

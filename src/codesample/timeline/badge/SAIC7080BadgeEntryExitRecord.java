@@ -47,8 +47,8 @@ public class SAIC7080BadgeEntryExitRecord extends BadgeEntryExitRecord {
 	 */
 	@Override
 	protected boolean isExit(BadgeEvent event) {
-		return ((event.getLocation() != null) && event.getLocation().contains(
-				"SCIF EXIT"));
+		return ((event.getLocation() != null) && (event.getLocation().contains(
+				"SCIF EXIT") || event.getLocation().contains("SCIF C T. EXIT")));
 	}
 
 }

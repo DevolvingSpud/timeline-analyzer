@@ -3,11 +3,8 @@
  */
 package codesample.timeline.badge;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -192,42 +189,10 @@ public class SAICBadgeReaderv1 {
 			}
 			
 			// Creating an output report on the cheap
-			File statsFile = new File("DailyStatsReport.txt");
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(statsFile)));
-			ReportGenerator.generateDailyStatsReport(dailyRecords, out);
-			out.flush();
-			out.close();
-			
-			File gapsFile = new File("GapsReport.txt");
-			PrintWriter gapOut = new PrintWriter(new BufferedWriter(new FileWriter(gapsFile)));
-			ReportGenerator.generateGapsReport(dailyRecords, gapOut);
-			gapOut.flush();
-			gapOut.close();
-			System.out.println("Created an output report in "+statsFile.getAbsolutePath());
-			// Map<LocalDate, List<BadgeEvent>> eventMap = createEventList(new
-			// File(
-			// "data\\rawbadgedata.txt"));
-			// System.out
-			// .println("I successfully created an eventMap that covers "
-			// + eventMap.keySet().size()
-			// + " days out of file events");
-			// int numEvents = 0;
-			// for (List<BadgeEvent> eventSet : eventMap.values()) {
-			// numEvents += eventSet.size();
-			// }
-			//
-			// StringBuilder sb = new StringBuilder();
-			// for (LocalDate date : eventMap.keySet()) {
-			// List<BadgeEvent> dayEntries = eventMap.get(date);
-			// Collections.sort(dayEntries);
-			// sb.append(date).append(" has ").append(dayEntries.size())
-			// .append(" entries:\n");
-			// for (BadgeEvent entry : dayEntries) {
-			// sb.append("\t").append(entry).append("\n");
-			// }
-			// }
-			// System.out.println("My map includes " + numEvents + " events");
-			// System.out.println(sb.toString());
+			ReportGenerator generator = new ReportGenerator("\t");
+			generator.generateDailyStatsReport(dailyRecords, new File("output\\DailyStatsReport.txt"));			
+			generator.generateGapsReport(dailyRecords, new File("output\\GapsReport.txt"));
+			generator.generateEntryExitRecordsReport(eeRecords, new File("output\\EntryExitRecordsReport.txt"));
 		} catch (IOException ioe) {
 			System.out.println("Could not create events from File: "
 					+ ioe.getMessage());
