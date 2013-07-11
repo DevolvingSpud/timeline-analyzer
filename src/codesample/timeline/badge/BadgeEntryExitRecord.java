@@ -178,7 +178,7 @@ public abstract class BadgeEntryExitRecord implements Event,
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("BadgeEntryExitRecord[").append(localDate).append(" has ")
+		sb.append("BadgeEntryExitRecord[").append(localDate.toString(Format.SHORT_DATE)).append(" has ")
 				.append(badgeEvents.size()).append(" events:\n");
 		Collections.sort(badgeEvents);
 		for (BadgeEvent event : badgeEvents) {

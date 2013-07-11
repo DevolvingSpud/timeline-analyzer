@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
 import codesample.timeline.Event;
@@ -98,9 +97,10 @@ public class DailyBadgeRecord implements Event, Comparable<Event> {
 		}
 		return coveredTime;
 	}
-	
+
 	/**
 	 * Calculate the total duration of all of the gaps in these intervals.
+	 * 
 	 * @return the total duration of all gaps
 	 */
 	public Duration getTotalGapDuration() {
@@ -110,8 +110,9 @@ public class DailyBadgeRecord implements Event, Comparable<Event> {
 			return gaps;
 		}
 		Interval lastInterval = null;
-		for (Interval thisInterval : intervals) {	
-			Interval gapInterval = lastInterval == null ? null : lastInterval.gap(thisInterval);
+		for (Interval thisInterval : intervals) {
+			Interval gapInterval = lastInterval == null ? null : lastInterval
+					.gap(thisInterval);
 			if (gapInterval != null) {
 				gaps = gaps.plus(gapInterval.toDuration());
 			}
@@ -181,36 +182,35 @@ public class DailyBadgeRecord implements Event, Comparable<Event> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("DailyBadgeRecord for ").append(date).append(":\n");
-		sb.append("\tFirst Entry: ").append(this.getStart().toLocalTime())
+		sb.append("DailyBadgeRecord for ")
+				.append(date.toString(Format.SHORT_DATE)).append(":\n");
+		sb.append("\tFirst Entry: ")
+				.append(this.getStart().toString(Format.TIME_OF_DAY))
 				.append("\n").append("\tLast Exit: ")
-				.append(this.getEnd().toLocalTime()).append("\n");
+				.append(this.getEnd().toString(Format.TIME_OF_DAY))
+				.append("\n");
 		Duration elapsedTime = this.getTimeInFacility();
 		Period elapsedPeriod = elapsedTime.toPeriod();
 		sb.append("\tElapsed Time In Facility: ")
-				.append(elapsedPeriod.getHours()).append(":")
-				.append(elapsedPeriod.getMinutes()).append(":")
-				.append(elapsedPeriod.getSeconds()).append("\n");
+				.append(elapsedPeriod.toString(Format.PERIOD)).append("\n");
 		sb.append("\tIntervals are as follows:\n");
-		ListIterator<Interval> intervals = this.getIntervalsInFacility().listIterator();
+		ListIterator<Interval> intervals = this.getIntervalsInFacility()
+				.listIterator();
 		while (intervals.hasNext()) {
-			Interval lastInterval = intervals.hasPrevious() ? intervals.previous() : null;
+			Interval lastInterval = intervals.hasPrevious() ? intervals
+					.previous() : null;
 			if (lastInterval != null) {
 				intervals.next();
 			}
 			Interval thisInterval = intervals.next();
-			Interval gapInterval = lastInterval == null ? null : lastInterval.gap(thisInterval);
-			LocalTime localStart = thisInterval.getStart().toLocalTime();
-			LocalTime localEnd = thisInterval.getEnd().toLocalTime();
-			Period localPeriod = thisInterval.toPeriod();
-			sb.append("\t\tEntry: ").append(localStart).append("\t")
-					.append("Exit: ").append(localEnd).append("\t")
-					.append("Elapsed: ").append(localPeriod.getHours())
-					.append(":").append(localPeriod.getMinutes()).append(":")
-					.append(localPeriod.getSeconds());
+			Interval gapInterval = lastInterval == null ? null : lastInterval
+					.gap(thisInterval);
+			sb.append("\t\tEntry: ").append(thisInterval.getStart().toString(Format.TIME_OF_DAY)).append("\t")
+					.append("Exit: ").append(thisInterval.getEnd().toString(Format.TIME_OF_DAY)).append("\t")
+					.append("Elapsed: ").append(thisInterval.toPeriod().toString(Format.PERIOD));
 			if (gapInterval != null) {
 				Period gap = gapInterval.toPeriod();
-				sb.append("\tGap: ").append(gap.getHours()).append(":").append(gap.getMinutes()).append(":").append(gap.getSeconds());
+				sb.append("\tGap: ").append(gap.toString(Format.PERIOD));
 			}
 			sb.append("\n");
 		}
