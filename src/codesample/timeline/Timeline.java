@@ -137,59 +137,75 @@ public class Timeline implements Collection<Event> {
         public boolean hasNext() 
         {
         	
-        	HashSet<Event> hashSet = (HashSet<Event>)eventSets[eventSetIndex];
-            if (hashSet.size()> eventIndex+1)
+        	if (eventSetIndex >= eventSets.length) {
+        		return false;
+        	}
+        	
+        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+       	        	
+            if (eventIndex < eventSet.size())
             {
                return true;
             }
-            
-            if (eventSetIndex < eventSets.length && eventSets[eventSetIndex+1]!=null)
-            {
-                return true;
+            else {
+            	if (eventSetIndex < eventSets.length) {
+            		return true;
+            	}
+            	else {
+            		return false;
+            	}
             }
-                
-            if (hashSet.size() < eventIndex && eventSets[eventSetIndex+1]==null)
-            {
-               return false;
-            }
-            else
-            	return false;
         }
 
         @SuppressWarnings("unchecked")
 		@Override
         public Event next()
         {
-        	HashSet<Event> hashSet = (HashSet<Event>)eventSets[eventSetIndex];
-        	HashSet<Event> hashSet2 = (HashSet<Event>)eventSets[eventSetIndex];
-            Event [] result =  (Event[]) hashSet2.toArray() ;
-            if (hashSet.size()> eventIndex+1)
+        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
+        	Event nextEvent = null;
+      
+            if (eventIndex < eventSet.size())
             {
-               eventIndex+=1;
-               return result[eventIndex];
-               //return that element
+               nextEvent = events[eventIndex];
+            } else {
+            	eventIndex = 0;
+            	eventSetIndex ++;
+            	if (eventSetIndex < eventSets.length) {
+            		eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+            		events = (Event[]) eventSet.toArray(new Event[0]);
+            		nextEvent = events[eventIndex];
+            	} else {
+                    throw new NoSuchElementException();
+            	}
             }
             
-            if (eventSetIndex < eventSets.length && eventSets[eventSetIndex+1]!=null) //return the first element of that next set
-            {
-                eventSetIndex+=1;
-                eventIndex=0;
-                return result[0];
+            if (eventIndex < eventSet.size()) {
+            	eventIndex = 0;
+            	eventSetIndex ++;          	
             }
             
-            if (hashSet.size() < eventIndex && eventSets[eventSetIndex+1]==null)
-            {
-               throw new NoSuchElementException();
-            }
-            
-            else
-            	return null;
+            return nextEvent;
         }
 
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
         public boolean hasPrevious()
         {
-            return false;
+        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	
+            if (eventIndex > 0)
+            {
+               return true;
+            }
+            else {
+            	if (eventSetIndex < eventSets.length) {
+            		return true;
+            	}
+            	else {
+            		return false;
+            	}
+            }
         }
 
         @Override
@@ -362,6 +378,7 @@ public class Timeline implements Collection<Event> {
 			return false;
 	}
 	
+	// Private size method 
 	private int sizeEventMap(TreeMap<DateTime, HashSet<Event>> map) {
 		
 		int count =0;
@@ -376,22 +393,4 @@ public class Timeline implements Collection<Event> {
 		}
 		return 0;
 	}
-	
-	public String what(){
-		return arrayToString(eventMap);
-	}
-	
-	private String arrayToString(TreeMap<DateTime, HashSet<Event>> map){
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Timeline: ");
-		for(DateTime key: map.keySet())
-			for(Event e: map.get(key))
-				sb.append(e).append(" ");
-		return sb.toString();
-	}
-		
-//	public Event startedDuring(DateTime timeStart, DateTime timeEnd){
-//		return 
-//	}
 }

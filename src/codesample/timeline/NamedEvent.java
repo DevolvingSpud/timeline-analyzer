@@ -43,6 +43,11 @@ public class NamedEvent extends AbstractEvent implements Event {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Event Name: " + _name + "]";
+	}
 	
 	
 	

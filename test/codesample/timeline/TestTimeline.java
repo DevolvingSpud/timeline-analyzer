@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -267,39 +268,78 @@ public class TestTimeline {
 	}
 	
 	@Test
-	public void testHasNext(){
+	public void testHasNextElement(){
 		DateTime start = new DateTime(2004,12,25,0,0);
-		DateTime time = new DateTime(2003,12,25,0,0);
-		DateTime time2 = new DateTime(2003,9,25,0,0);
+		DateTime time = new DateTime(1993,8,14,0,0);
+		DateTime time2 = new DateTime(1985,9,12,0,0);
 		
-		Event a = new NamedEvent("Event", start);
-		Event b = new NamedEvent("EventA", start);
-		Event c = new NamedEvent("EventC", start);
+	
 		
 		//Case 1
-		timeline.add(a);
-		timeline.add(b);
-		timeline.add(c);
-		Iterator<Event> i = timeline.iterator();
-		i.next();
-		
-//		i.next();
-		assertTrue(i.hasNext());
-		
-		//Case 2
-//		Event a = new NamedEvent("Event", start);
-//		Event b = new NamedEvent("EventA", time);
+//		Event a = new NamedEvent("EventA", start);
+//		Event b = new NamedEvent("EventB", start);
+//		Event c = new NamedEvent("EventC", start);
 //		timeline.add(a);
 //		timeline.add(b);
+//		timeline.add(c);
 //		Iterator<Event> i = timeline.iterator();
+//		while(i.hasNext())
+//		{
+//			System.out.println(i.next()+"\n");
+//		}
 //		assertTrue(i.hasNext());
+//		i.next();
+//		i.next();
+////		System.out.println(i.next());
+//		assertTrue(i.hasNext());
+		
+		
 //		
-		//Case 3
-//		Event a = new NamedEvent("Event", start);
+				
+	}
+	@Test
+	public void testHasNextSet(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(1993,8,14,0,0);
+		DateTime time2 = new DateTime(1985,9,12,0,0);
+		//Case 2
+//		Event a = new NamedEvent("EventA", start);
+//		Event b = new NamedEvent("EventB", time);
+//		Event c = new NamedEvent("EventC", time2);
 //		timeline.add(a);
+//		timeline.add(b);
+//		timeline.add(c);
 //		Iterator<Event> i = timeline.iterator();
-//		assertFalse(i.hasNext());
-//		
+//		while(i.hasNext())
+//		{
+//			System.out.println(i.next()+"\n");
+//		}
+//		assertTrue(i.hasNext());
+//		System.out.println(i.next());
+//		i.next();
+//		assertTrue(i.hasNext());
+//		System.out.println(i.next());
+//		i.next();
+//		System.out.println(i.next());
+	}
+	
+	@Test
+	public void testHasNextNoElement(){
+		
+		DateTime start = new DateTime(2004,12,25,0,0);
+		//Case 3
+		Event a = new NamedEvent("EventA", start);
+		timeline.add(a);
+		Iterator<Event> i = timeline.iterator();
+		assertTrue(i.hasNext());
+		i.next();
+		assertFalse(i.hasNext());
+		
+//		try{
+//			i.next();
+//			fail("fail");
+//		}
+//		catch(NoSuchElementException e){}
 	}
 
 	@Test 
@@ -313,11 +353,14 @@ public class TestTimeline {
 		Event c = new NamedEvent("EventC", time2);
 	
 		timeline.add(a);
-		timeline.add(b);
-		timeline.add(c);
+//		timeline.add(b);
+//		timeline.add(c);
 		
 		Iterator<Event> i = timeline.iterator();
-		assertEquals(a,i.next());
+		i.next();
+//		i.next();
+//		i.next();
+		
 		
 	}
 	
