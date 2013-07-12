@@ -395,6 +395,47 @@ public class TestTimeline
 		i.next();
 		assertTrue(i.hasPrevious());
 	}
+	@Test
+	public void testHavsPreviousEventIndex2() //case1: arranged differently.
+	{
+		DateTime time1 = new DateTime(2004,12,25,0,0);
+		DateTime time2 = new DateTime(2005,12,25,0,0);
+		DateTime time3 = new DateTime(2012,12,25,0,0);
+		Event b = new NamedEvent("EventB", time1);
+		Event c = new NamedEvent("EventC", time1);
+		Event d = new NamedEvent("EventD", time1);
+		Event e = new NamedEvent("EventE", time2);
+		Event f = new NamedEvent("EventF", time2);
+		Event g = new NamedEvent("EventF", time3);
+		Event h = new NamedEvent("EventF", time3);
+		timeline.add(b);
+		timeline.add(c);
+		timeline.add(d);
+		timeline.add(e);
+		timeline.add(f);
+		timeline.add(g);
+		timeline.add(h);
+		//<2004,12,25,0,0>: [EventB][EventC][EventD]
+		//<2005,12,25,0,0>: [EventE][EventF]
+		//<2012,12,25,0,0>: [EventG][EventH]
+		
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		
+		i.next();
+		i.next();
+		i.next();
+		i.next();
+		i.next();
+		i.next();
+		i.next();
+		i.previous();
+		i.previous();
+		i.previous();
+		i.previous();
+		i.previous();
+		i.previous();
+		assertTrue(i.hasPrevious());
+	}
 	
 	@Test
 	public void testHasPreviousEventSet() //case2 //supposed to be a right situation.
@@ -435,8 +476,6 @@ public class TestTimeline
 		catch (NoSuchElementException e){}
 		
 	}
-	
-	
 	
 	//Case3: different data arrangement (Should also fail).
 	@Test
