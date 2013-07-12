@@ -417,24 +417,151 @@ public class TestTimeline
 	
 	////****Tests for testPrevious()****\\\\
 	
+	//Case 3: supposed to fail.
+	@Test
+	public void testPreviousFirstEvent(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		Event a = new NamedEvent("Event", start);
+		timeline.add(a);
+		//<2004,12,25,0,0> : [Event]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		try{
+			assertEquals(null,i.previous()); 
+			fail("fail");
+		}
+		catch (NoSuchElementException e){}
+		
+	}
+	
+	
+	
+	//Case3: different data arrangement (Should also fail).
+	@Test
+	public void testPreviousFirstEvent2(){
+		DateTime time1 = new DateTime(2004,12,25,0,0);
+		Event a = new NamedEvent("EventA", time1);
+		Event b = new NamedEvent("EventB", time1);
+		Event c = new NamedEvent("EventC", time1);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		//<2004,12,25,0,0>: [EventA][EventB][EventC]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next(); //returns [EventA]
+		i.next(); //returns [EventB]
+		i.next(); //returns [EventC]
+		i.previous(); //returns [EventB]
+		i.previous(); //return [EventA]
+		
+		try{
+			assertEquals(null,i.previous()); 
+			fail("fail");
+		}
+		catch (NoSuchElementException e){}
+	}
+	
+	
+	//Case 1: supposed to not fail
+	@Test
+	public void testPreviousEventIndex(){ 
+		DateTime time = new DateTime(2003,12,25,0,0);
+		Event b = new NamedEvent("EventA", time);
+		Event c = new NamedEvent("EventC", time);
+		timeline.add(b);
+		timeline.add(c);
+		//<2003,12,25,0,0> : [EventA][EventC]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next();
+		assertEquals(b,i.previous()); //should return [EventA].
+	}
+	
+	//Case 2: supposed to not fail
+	@Test
+	public void testPreviousEventSet(){
+		DateTime start = new DateTime(2004,12,25,0,0);
+		DateTime time = new DateTime(2003,12,25,0,0);
+		Event a = new NamedEvent("Event", start);
+		Event b = new NamedEvent("EventA", time);
+		timeline.add(a);
+		timeline.add(b);
+		//<2004,12,25,0,0> : [Event]
+		//<2003,12,25,0,0> : [EventA]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next();
+		assertEquals(a,i.previous()); //should return [Event].
+	}
+	
+	//Case3: different data arrangement (Should also fail).
+	@Test
+	public void testPreviousFirstEventFromLastEvent(){
+		DateTime start = new DateTime(2003,12,25,0,0);
+		DateTime time1 = new DateTime(2004,12,25,0,0);
+		DateTime time2 = new DateTime(2005,12,25,0,0);
+		DateTime time3 = new DateTime(2012,12,25,0,0);
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", time1);
+		Event c = new NamedEvent("EventC", time1);
+		Event d = new NamedEvent("EventD", time2);
+		Event e = new NamedEvent("EventE", time2);
+		Event f = new NamedEvent("EventF", time2);
+		Event g = new NamedEvent("EventF", time3);
+		Event h = new NamedEvent("EventF", time3);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		timeline.add(d);
+		timeline.add(e);
+		timeline.add(f);
+		timeline.add(g);
+		timeline.add(h);
+		//<2003,12,25,0,0>: [EventA] 
+		//<2004,12,25,0,0>: [EventB][EventC]
+		//<2005,12,25,0,0>: [EventD][EventE][EventF]
+		//<2012,12,25,0,0>: [EventG][EventH]
+		
+		ListIterator<Event> i = timeline.listiterator();
+		
+		i.next(); //returns EventA
+		i.next(); //return EventB
+		i.next(); //return EventC
+		
+	}
+	
+	
+	
+	
+	
 	
 	@Test
-	public void testNextIndex(){
+	public void testNextIndex()
+	{
+		fail("fail");
 		
 	}
 	
 	@Test
 	public void testPreviousIndex(){
-		
+		fail("fail");
+
 	}
 	
 	@Test
 	public void testIterRemove(){
-		
+		fail("fail");
+
 	}
 	
 	@Test
 	public void testIterAdd(){
-		
+		fail("fail");
+
 	}
 }
