@@ -425,7 +425,7 @@ public class TestTimeline
 		timeline.add(a);
 		//<2004,12,25,0,0> : [Event]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		try{
 			assertEquals(null,i.previous()); 
@@ -449,7 +449,7 @@ public class TestTimeline
 		timeline.add(c);
 		//<2004,12,25,0,0>: [EventA][EventB][EventC]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next(); //returns [EventA]
 		i.next(); //returns [EventB]
@@ -475,7 +475,7 @@ public class TestTimeline
 		timeline.add(c);
 		//<2003,12,25,0,0> : [EventA][EventC]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next();
 		assertEquals(b,i.previous()); //should return [EventA].
@@ -493,7 +493,7 @@ public class TestTimeline
 		//<2004,12,25,0,0> : [Event]
 		//<2003,12,25,0,0> : [EventA]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next();
 		assertEquals(a,i.previous()); //should return [Event].
@@ -527,7 +527,7 @@ public class TestTimeline
 		//<2005,12,25,0,0>: [EventD][EventE][EventF]
 		//<2012,12,25,0,0>: [EventG][EventH]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next(); //returns EventA
 		i.next(); //return EventB

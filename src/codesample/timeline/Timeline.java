@@ -93,10 +93,6 @@ public class Timeline implements Collection<Event>
 		return new TimelineIterator();
 	}
 	
-//	public ListIterator<Event> listIterator()
-//	{
-//		return new TimelineIterator();
-//	}
 	
 	/**
      * This Iterator is designed to walk through the Timeline as if it were an
