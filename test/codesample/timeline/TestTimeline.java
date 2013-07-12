@@ -302,13 +302,13 @@ public class TestTimeline
 		DateTime time = new DateTime(1993,8,14,0,0);
 		DateTime time2 = new DateTime(1985,9,12,0,0);
 		//Case 2
-//		Event a = new NamedEvent("EventA", start);
-//		Event b = new NamedEvent("EventB", time);
-//		Event c = new NamedEvent("EventC", time2);
-//		timeline.add(a);
-//		timeline.add(b);
-//		timeline.add(c);
-//		Iterator<Event> i = timeline.iterator();
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", time);
+		Event c = new NamedEvent("EventC", time2);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		Iterator<Event> i = timeline.iterator();
 //		while(i.hasNext())
 //		{
 //			System.out.println(i.next()+"\n");
@@ -375,6 +375,7 @@ public class TestTimeline
 	
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		assertTrue(i.hasNext());
+		assertFalse(i.hasPrevious());
 	}
 	
 	@Test
@@ -401,8 +402,8 @@ public class TestTimeline
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(2003,12,25,0,0);
 		//DateTime time2 = new DateTime(2003,9,25,0,0);
-		Event a = new NamedEvent("Event", start);
-		Event b = new NamedEvent("EventA", time);
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", time);
 		timeline.add(a);
 		timeline.add(b);
 		
@@ -457,6 +458,7 @@ public class TestTimeline
 		i.previous(); //returns [EventC]
 		i.previous(); //return [EventB]
 		i.previous(); //return [EventA]
+		i.previous(); 
 		
 		try{
 			i.previous(); 

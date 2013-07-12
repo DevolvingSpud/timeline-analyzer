@@ -93,7 +93,6 @@ public class Timeline implements Collection<Event>
 		return new TimelineIterator();
 	}
 	
-	
 	/**
      * This Iterator is designed to walk through the Timeline as if it were an
      * asymmetrical 2-dimensional array. To do this, we're only keeping track of
@@ -181,6 +180,7 @@ public class Timeline implements Collection<Event>
             return nextEvent;
         }
 
+		@SuppressWarnings("unchecked")
 		@Override
         public boolean hasPrevious()
         {
