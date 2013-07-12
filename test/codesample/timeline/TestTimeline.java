@@ -428,7 +428,7 @@ public class TestTimeline
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		try{
-			assertEquals(null,i.previous()); 
+			i.previous();
 			fail("fail");
 		}
 		catch (NoSuchElementException e){}
@@ -454,11 +454,12 @@ public class TestTimeline
 		i.next(); //returns [EventA]
 		i.next(); //returns [EventB]
 		i.next(); //returns [EventC]
-		i.previous(); //returns [EventB]
+		i.previous(); //returns [EventC]
+		i.previous(); //return [EventB]
 		i.previous(); //return [EventA]
 		
 		try{
-			assertEquals(null,i.previous()); 
+			i.previous(); 
 			fail("fail");
 		}
 		catch (NoSuchElementException e){}
@@ -532,6 +533,26 @@ public class TestTimeline
 		i.next(); //returns EventA
 		i.next(); //return EventB
 		i.next(); //return EventC
+		i.next(); //return EventD
+		i.next(); //return EventE
+		i.next(); //return EventF
+		i.next(); //return EvnetG
+		i.next(); //return EventH
+		i.previous(); //return EventH
+		i.previous(); //return EventG
+		i.previous(); //return EventF
+		i.previous(); //return EventE
+		i.previous(); //return EventD
+		i.previous(); //return EventC
+		i.previous(); //return EventB
+		i.previous(); //return EventA
+		
+		try{
+			i.previous(); 
+			fail("fail");
+		}
+		catch (NoSuchElementException z){}
+		
 		
 	}
 	
