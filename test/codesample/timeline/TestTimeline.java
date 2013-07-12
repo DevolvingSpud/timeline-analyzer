@@ -352,13 +352,14 @@ public class TestTimeline
 		Event c = new NamedEvent("EventC", time2);
 	
 		timeline.add(a);
-//		timeline.add(b);
-//		timeline.add(c);
+		timeline.add(b);
+		timeline.add(c);
 		
 		Iterator<Event> i = timeline.iterator();
 		i.next();
-//		i.next();
-//		i.next();
+		i.next();
+		i.next();
+		assertFalse(i.hasNext());
 	}
 	
 	
@@ -373,7 +374,7 @@ public class TestTimeline
 		//<2004,12,25,0,0> : [Event]
 	
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
-		assertFalse(i.hasNext());
+		assertTrue(i.hasNext());
 	}
 	
 	@Test
@@ -381,7 +382,7 @@ public class TestTimeline
 	{
 
 		DateTime time = new DateTime(2003,12,25,0,0);
-		Event b = new NamedEvent("EventA", time);
+		Event b = new NamedEvent("EventB", time);
 		Event c = new NamedEvent("EventC", time);
 		timeline.add(b);
 		timeline.add(c);
@@ -389,6 +390,7 @@ public class TestTimeline
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
+		i.next();
 		i.next();
 		assertTrue(i.hasPrevious());
 	}

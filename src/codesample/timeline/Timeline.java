@@ -93,10 +93,10 @@ public class Timeline implements Collection<Event>
 		return new TimelineIterator();
 	}
 	
-	public ListIterator<Event> listiterator()
-	{
-		return new TimelineIterator();
-	}
+//	public ListIterator<Event> listIterator()
+//	{
+//		return new TimelineIterator();
+//	}
 	
 	/**
      * This Iterator is designed to walk through the Timeline as if it were an
@@ -160,9 +160,10 @@ public class Timeline implements Collection<Event>
         	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
         	Event nextEvent = null;
       
-            if (eventIndex < eventSet.size())
+            if (eventIndex < events.length)
             {
                nextEvent = events[eventIndex];
+               eventIndex++;
             } else {
             	eventIndex = 0;
             	eventSetIndex ++;
@@ -170,12 +171,13 @@ public class Timeline implements Collection<Event>
             		eventSet = (HashSet<Event>)eventSets[eventSetIndex];
             		events = (Event[]) eventSet.toArray(new Event[0]);
             		nextEvent = events[eventIndex];
+            		eventIndex++;
             	} else {
                     throw new NoSuchElementException();
             	}
             }
             
-            if (eventIndex < eventSet.size()) {
+            if (eventIndex >= events.length) {
             	eventIndex = 0;
             	eventSetIndex ++;          	
             }
