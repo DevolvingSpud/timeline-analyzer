@@ -140,11 +140,6 @@ public class TestTimeline
 	}
 	
 	@Test
-	public void testIterator(){
-		fail();
-	}
-	
-	@Test
 	public void testRemove(){
 		
 		DateTime start = new DateTime(2004,12,25,0,0);
