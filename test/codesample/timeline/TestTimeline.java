@@ -372,7 +372,7 @@ public class TestTimeline
 		timeline.add(a);
 		//<2004,12,25,0,0> : [Event]
 	
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		assertFalse(i.hasNext());
 	}
 	
@@ -387,7 +387,7 @@ public class TestTimeline
 		timeline.add(c);
 		//<2003,12,25,0,0> : [EventA][EventC]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next();
 		assertTrue(i.hasPrevious());
@@ -407,7 +407,7 @@ public class TestTimeline
 		//<2004,12,25,0,0> : [Event]
 		//<2003,12,25,0,0> : [EventA]
 		
-		ListIterator<Event> i = timeline.listiterator();
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		i.next();
 		assertTrue(i.hasPrevious());
