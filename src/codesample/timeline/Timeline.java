@@ -180,18 +180,21 @@ public class Timeline implements Collection<Event>
             return nextEvent;
         }
 
-		@SuppressWarnings("unchecked")
 		@Override
         public boolean hasPrevious()
         {
-        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
         	
-            if (eventIndex > 0)
+        	if (eventSetIndex==0 && eventIndex==0)
+        	{
+        		return false;
+        	}
+        	
+            if (eventSetIndex > 0)
             {
                return true;
             }
             else {
-            	if (eventSetIndex < eventSets.length) {
+            	if (eventIndex > 0) { // there is a previous set
             		return true;
             	}
             	else {
