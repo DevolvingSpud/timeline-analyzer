@@ -628,7 +628,6 @@ public class TestTimeline
 	}
 	
 	//Case3
-
 	@Test
 	public void testNextIndexFirst(){
 		
