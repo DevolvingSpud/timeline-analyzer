@@ -176,7 +176,6 @@ public class Timeline implements Collection<Event>
             	eventIndex = 0;
             	eventSetIndex ++;          	
             }
-            
             return nextEvent;
         }
 
@@ -189,12 +188,12 @@ public class Timeline implements Collection<Event>
         		return false;
         	}
         	
-            if (eventSetIndex > 0)
+            if (eventIndex > 0)
             {
                return true;
             }
             else {
-            	if (eventIndex > 0) { // there is a previous set
+            	if (eventSetIndex > 0) { // there is a previous set
             		return true;
             	}
             	else {
@@ -203,18 +202,20 @@ public class Timeline implements Collection<Event>
             }
         }
 
-        @Override
-        public Event previous()
+        
+		@Override
+        public Event previous() // reverse array and call next();
         {
-            return null;
+        	return null;
         }
+        
 
-        @Override
+		@Override
         public int nextIndex()
-        {
+        {   
             return 0;
         }
-
+		
         @Override
         public int previousIndex() {
             return 0;
