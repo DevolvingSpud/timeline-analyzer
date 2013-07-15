@@ -597,7 +597,6 @@ public class TestTimeline
 		catch (NoSuchElementException z){}	
 	}
 	
-
 	////****Tests for testNextIndex****\\\\
 	
 	//Case1
