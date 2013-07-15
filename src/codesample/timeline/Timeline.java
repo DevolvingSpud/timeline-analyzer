@@ -212,9 +212,11 @@ public class Timeline implements Collection<Event>
 
 		@Override
         public int nextIndex()
+
         {   
             return 0;
         }
+
 		
         @Override
         public int previousIndex() {
