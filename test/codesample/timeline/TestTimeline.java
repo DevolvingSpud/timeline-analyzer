@@ -265,10 +265,14 @@ public class TestTimeline
 		
 //		System.out.println(java.util.Arrays.toString(result));
 	}
+	
 	////****Iterator Method Tests****\\\\
 	
+		////****Tests for hasNext()****\\\\
+	
 	@Test
-	public void testHasNextElement(){
+	public void testHasNextElement()
+	{
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(1993,8,14,0,0);
 		DateTime time2 = new DateTime(1985,9,12,0,0);
@@ -298,7 +302,8 @@ public class TestTimeline
 				
 	}
 	@Test
-	public void testHasNextSet(){
+	public void testHasNextSet()
+	{
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(1993,8,14,0,0);
 		DateTime time2 = new DateTime(1985,9,12,0,0);
@@ -324,7 +329,8 @@ public class TestTimeline
 	}
 	
 	@Test
-	public void testHasNextNoElement(){
+	public void testHasNextNoElement()
+	{
 		
 		DateTime start = new DateTime(2004,12,25,0,0);
 		//Case 3
@@ -343,7 +349,8 @@ public class TestTimeline
 	}
 
 	@Test 
-	public void testNext(){
+	public void testNext()
+	{
 		DateTime start = new DateTime(2004,12,25,0,0);
 		DateTime time = new DateTime(2003,12,25,0,0);
 		DateTime time2 = new DateTime(2003,9,25,0,0);
@@ -364,7 +371,7 @@ public class TestTimeline
 	}
 	
 	
-	////****Tests for testHasPrevious()****\\\\
+		////****Tests for testHasPrevious()****\\\\
 	
 	@Test
 	public void testHasPreviousOnFirstEventIndex() //case3 //supposed to be a wrong situation.
@@ -459,7 +466,7 @@ public class TestTimeline
 		System.out.println(i.previous());
 	}
 	
-	////****Tests for testPrevious()****\\\\
+		////****Tests for testPrevious()****\\\\
 	
 	//Case 3: supposed to fail.
 	@Test
@@ -597,11 +604,45 @@ public class TestTimeline
 		catch (NoSuchElementException z){}	
 	}
 	
-	////****Tests for testNextIndex****\\\\
+		////****Tests for testNextIndex****\\\\
 	
 	//Case1
 	@Test
 	public void testNextIndexOnNextEventInSameSet()
+	{
+		DateTime start = new DateTime(2003,12,25,0,0);
+		Event a = new NamedEvent("EventA", start);
+		timeline.add(a);
+		//<2003,12,25,0,0>: [EventA] 
+		
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		
+		assertEquals(0,i.nextIndex());
+	}
+	
+	//Case2
+	@Test
+	public void testNextIndexToNextSet()
+	{
+		DateTime start = new DateTime(2003,12,25,0,0);
+		DateTime time1 = new DateTime(2004,12,25,0,0);
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", time1);
+		timeline.add(a);
+		timeline.add(b);
+		//<2003,12,25,0,0>: [EventA] 
+		//<2004,12,25,0,0>: [EventB]
+		
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		i.nextIndex();
+		assertEquals(1,i.nextIndex());
+		
+		
+	}
+	
+	//Case3
+	@Test
+	public void testNextIndexOnLastEvent()
 	{
 		DateTime start = new DateTime(2003,12,25,0,0);
 		DateTime time1 = new DateTime(2004,12,25,0,0);
@@ -615,44 +656,90 @@ public class TestTimeline
 		//<2004,12,25,0,0>: [EventB][EventC]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		i.nextIndex();
+		i.nextIndex();
+		i.nextIndex();
 		
-		assertEquals(0,i.nextIndex());
+		assertEquals(3,i.nextIndex());
 	}
 	
-	//Case2
+		////****Tests for previousIndex()****\\\\
+
 	@Test
-	public void testNextIndexToNextSet()
+	public void testPreviousIndexInSameSet() //Case1: test for index previous in same set.
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testPreviousIndexNotInSameSet() //Case2: test for index previous in another set.
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testPreviousIndexOnFirstEvent() //Case3: test for index previous on first event, which should fail.
 	{
 		
+		
+		
+		try
+		{
+			i.previous();
+			fail("fail");
+		}
+		catch (NoSuchElementException e){}
 	}
 	
-	//Case3
+		////****Tests for IterRemove****\\\\
+	
 	@Test
-	public void testNextIndexFirst(){
-		
-	}
-
-	@Test
-	public void testNextIndexOnLastEvent()
+	public void testIterRemoveStart() //remove the first event
 	{
-		
-	}
-	
-	@Test
-	public void testPreviousIndex(){
 		fail("fail");
 
 	}
 	
 	@Test
-	public void testIterRemove(){
+	public void testIterRemoveLast() //remove the last event
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testIterRemoveFromSetOfOne() //remove from a set with one event in it.
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testIterRemoveFromSetOfMany() //remove from a set with many events in it.
+	{
 		fail("fail");
 
 	}
 	
+		////****Tests for IterAdd()****\\\\
+	
 	@Test
-	public void testIterAdd(){
+	public void testIterAddAtStart() //add event to be the first event
+	{
 		fail("fail");
-
 	}
+	@Test
+	public void testIterAddAtEnd() //add event to be the last event
+	{
+		fail("fail");
+	}
+	@Test
+	public void testIterAddToNonExistingSet() //add to empty set
+	{
+		fail("fail");
+	}
+	@Test
+	public void testIterAddToExistingSet() //add to a existing set with at least one event in the set.
+	{
+		fail("fail");
+	}
+	
 }
