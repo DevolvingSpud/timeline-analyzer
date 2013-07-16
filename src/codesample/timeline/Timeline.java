@@ -1,7 +1,12 @@
 package codesample.timeline;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -258,13 +263,10 @@ public class Timeline implements Collection<Event>
         
 
 		//code is probably wrong.
-		@SuppressWarnings("unchecked")
 		@Override
         public int nextIndex() //of the all the events or just the events in a particular set.
-        {
-
+		{
 			return 0;
-			
         }
 
 		
