@@ -1,7 +1,12 @@
 package codesample.timeline;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -260,44 +265,8 @@ public class Timeline implements Collection<Event>
 		//code is probably wrong.
 		@Override
         public int nextIndex() //of the all the events or just the events in a particular set.
-        {
-
-			HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex]; //set for the 0th eventSet.
-        	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
-        	
-        	int nextEventIndex = 0;
-        	Event nextEvent = null;
-            if (eventIndex < events.length)
-            {
-               nextEventIndex++;
-               eventIndex++;
-            } 
-            else 
-            {
-            	eventIndex = 0;
-            	eventSetIndex++;
-            	
-            	if (eventSetIndex < eventSets.length) 
-            	{
-            		eventSet = (HashSet<Event>)eventSets[eventSetIndex]; //set for the 1th...nth eventSet.
-            		events = (Event[]) eventSet.toArray(new Event[0]);
-            		
-            		eventIndex++;
-            	} 
-            	//if (eventSetIndex == eventSets.length && eventIndex == events.length) //if 'pointer' is at end of list, return the size of the list, which is one more than the last index.
-            	else
-            	{
-                    nextEventIndex++;
-                    return nextEventIndex;  //returns the size of all the events => number of the events.
-            	}
-            }
-            
-            if (eventIndex >= events.length) 
-            {
-            	eventIndex = 0;
-            	eventSetIndex ++;          	
-            }
-            return nextEventIndex;
+		{
+			return 0;
         }
 
 		
