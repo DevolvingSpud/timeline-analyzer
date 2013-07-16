@@ -637,7 +637,7 @@ public class TestTimeline
 		//<2004,12,25,0,0>: [EventB]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
-		i.nextIndex();
+		i.next();
 		assertEquals(1,i.nextIndex());
 		
 		
@@ -660,9 +660,9 @@ public class TestTimeline
 		//<2004,12,25,0,0>: [EventB][EventC]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
-		i.nextIndex();
-		i.nextIndex();
-		i.nextIndex();
+		i.next();
+		i.next();
+		i.next();
 		
 		assertEquals(3,i.nextIndex());
 	}
