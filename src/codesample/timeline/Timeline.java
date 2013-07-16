@@ -261,10 +261,7 @@ public class Timeline implements Collection<Event>
 		@Override
         public int nextIndex() //of the all the events or just the events in a particular set.
         {
-<<<<<<< HEAD
 
-=======
->>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
 			HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex]; //set for the 0th eventSet.
         	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
         	
