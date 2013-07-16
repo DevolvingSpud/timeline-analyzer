@@ -110,6 +110,8 @@ public class Timeline implements Collection<Event>
         
         Object[] eventSets = new Object[0];
         
+		
+                    
         protected TimelineIterator()
         {
             if (eventMap != null && !eventMap.isEmpty())
@@ -121,8 +123,12 @@ public class Timeline implements Collection<Event>
                 }
             }            
         }
+        
+        private HashSet<Event> eventSet;
+        private Event[] events;
 
-        @SuppressWarnings("unchecked")
+		
+		@SuppressWarnings("unchecked")
 		@Override
         public boolean hasNext() 
         {
@@ -131,11 +137,15 @@ public class Timeline implements Collection<Event>
         		return false;
         	}
         	
-        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	eventSet = (HashSet<Event>)eventSets[eventSetIndex];
        	        	
             if (eventIndex < eventSet.size())
             {
                return true;
+            }
+            if(eventSets.length-1 == eventSetIndex && eventIndex==eventSet.size())
+            {
+            	return false;
             }
             else {
             	if (eventSetIndex < eventSets.length) {
@@ -145,14 +155,16 @@ public class Timeline implements Collection<Event>
             		return false;
             	}
             }
+            
         }
 
-        @SuppressWarnings("unchecked")
+        
+		@SuppressWarnings("unchecked")
 		@Override
         public Event next()
         {
-        	HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
-        	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
+        	eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	events = (Event[]) eventSet.toArray(new Event[0]);
         	Event nextEvent = null;
       
             if (eventIndex < events.length)
@@ -163,8 +175,8 @@ public class Timeline implements Collection<Event>
             	eventIndex = 0;
             	eventSetIndex ++;
             	if (eventSetIndex < eventSets.length) {
-            		eventSet = (HashSet<Event>)eventSets[eventSetIndex];
-            		events = (Event[]) eventSet.toArray(new Event[0]);
+            		HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+            		Event[] events = (Event[]) eventSet.toArray(new Event[0]);
             		nextEvent = events[eventIndex];
             		eventIndex++;
             	} else {
@@ -172,6 +184,11 @@ public class Timeline implements Collection<Event>
             	}
             }
             
+            if(eventSets.length-1 == eventSetIndex && eventIndex==eventSet.size())
+            {
+            	return nextEvent;
+            }
+              
             if (eventIndex >= events.length) {
             	eventIndex = 0;
             	eventSetIndex ++;          	
@@ -202,11 +219,41 @@ public class Timeline implements Collection<Event>
             }
         }
 
-        
+		@SuppressWarnings("unchecked")
 		@Override
-        public Event previous() // reverse array and call next();
+        public Event previous() 
         {
-        	return null;
+			eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	events = (Event[]) eventSet.toArray(new Event[0]);
+        	Event previousEvent = null;
+        	
+        	if (eventSetIndex==0 && eventIndex==0)
+        	{
+        		throw new NoSuchElementException();
+        	}
+      
+            if (eventIndex > 0)
+            {
+               eventIndex--;  
+               previousEvent = events[eventIndex];
+            } else {
+            	eventSetIndex --;
+            	eventIndex = eventSet.size();
+            	if (eventSetIndex > 0) {
+            		eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+            		events = (Event[]) eventSet.toArray(new Event[0]);
+            		eventIndex--;
+            		previousEvent = events[eventIndex];
+            	}
+            }
+            
+            if (eventSetIndex > 0 && eventIndex == 0) {
+            	eventSetIndex --;
+            	eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+            	eventIndex = eventSet.size();     	
+            }
+            
+            return previousEvent;
         }
         
 
@@ -214,6 +261,7 @@ public class Timeline implements Collection<Event>
 		@Override
         public int nextIndex() //of the all the events or just the events in a particular set.
         {
+
 			HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex]; //set for the 0th eventSet.
         	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
         	
@@ -277,7 +325,8 @@ public class Timeline implements Collection<Event>
         {
 
         }
-    }
+}
+
 
 	@Override
 	public boolean remove(Object o) {
