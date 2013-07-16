@@ -680,15 +680,7 @@ public class TestTimeline
 	@Test
 	public void testPreviousIndexOnFirstEvent() //Case3: test for index previous on first event, which should fail.
 	{
-		
-		
-		
-		try
-		{
-			i.previous();
-			fail("fail");
-		}
-		catch (NoSuchElementException e){}
+		fail();
 	}
 	
 		////****Tests for IterRemove****\\\\
