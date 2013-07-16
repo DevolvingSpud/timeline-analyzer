@@ -223,8 +223,8 @@ public class Timeline implements Collection<Event>
 		@Override
         public Event previous() 
         {
-//			eventSet = (HashSet<Event>)eventSets[eventSetIndex];
-//        	events = (Event[]) eventSet.toArray(new Event[0]);
+			eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+        	events = (Event[]) eventSet.toArray(new Event[0]);
         	Event previousEvent = null;
         	
         	if (eventSetIndex==0 && eventIndex==0)
@@ -240,16 +240,16 @@ public class Timeline implements Collection<Event>
             	eventSetIndex --;
             	eventIndex = eventSet.size();
             	if (eventSetIndex > 0) {
-            		HashSet<Event> eventSet = (HashSet<Event>)eventSets[eventSetIndex];
-            		Event[] events = (Event[]) eventSet.toArray(new Event[0]);
+            		eventSet = (HashSet<Event>)eventSets[eventSetIndex];
+            		events = (Event[]) eventSet.toArray(new Event[0]);
             		eventIndex--;
             		previousEvent = events[eventIndex];
-
             	}
             }
             
-            if (eventSetIndex>0 && eventIndex == 0) {
+            if (eventSetIndex > 0 && eventIndex == 0) {
             	eventSetIndex --;
+            	eventSet = (HashSet<Event>)eventSets[eventSetIndex];
             	eventIndex = eventSet.size();     	
             }
             

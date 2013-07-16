@@ -572,12 +572,7 @@ public class TestTimeline
 		//<2012,12,25,0,0>: [EventQ][EventU]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
-//		
-//		while(i.hasNext())
-//		{
-//			System.out.println(i.next());
-//		}
-		
+
 		i.next(); //returns EventA
 		i.next(); //return EventB
 		i.next(); //return EventC
@@ -586,12 +581,7 @@ public class TestTimeline
 		i.next(); //return EventF
 		i.next(); //return EventQ
 		i.next(); //return EventU
-		
-//		while (i.hasPrevious())
-//		{
-//			System.out.println(i.previous());
-//		}
-		
+	
 		i.previous(); //return EventU
 		i.previous(); //return EventQ
 		i.previous(); //return EventF
@@ -601,11 +591,11 @@ public class TestTimeline
 		i.previous(); //return EventB
 		i.previous(); //return EventA
 		
-//		try{
-//			i.previous(); 
-//			fail("fail");
-//		}
-//		catch (NoSuchElementException z){}
+		try{
+			i.previous(); 
+			fail("fail");
+		}
+		catch (NoSuchElementException z){}
 		
 	}
 	
