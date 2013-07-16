@@ -2,12 +2,12 @@ package codesample.timeline;
 
 import org.joda.time.DateTime;
 
-public class NamedEvent extends AbstractEvent implements Event {
+public class NamedEvent extends AbstractEvent implements Event, Comparable<Event> {
 	
 	private String _name;
 
 	public NamedEvent(String name, DateTime start) {
-		this(name, start,start);
+		this(name, start, start);
 	}
 
 	public NamedEvent(String name, DateTime start, DateTime end) {
@@ -48,8 +48,17 @@ public class NamedEvent extends AbstractEvent implements Event {
 	public String toString() {
 		return "Event Name: " + _name + "]";
 	}
-	
-	
-	
+
+	@Override
+	public int compareTo(Event otherEvent) {
+		int startCompare = this.getStart().compareTo(otherEvent.getStart());
+		int endCompare = this.getEnd().compareTo(otherEvent.getEnd());
+		if (startCompare != 0) return startCompare;
+		else if (endCompare != 0) return endCompare;
+		else if (otherEvent instanceof NamedEvent) {
+			return this.getName().compareTo(((NamedEvent)otherEvent).getName());
+		}
+		else return 0;
+	}	
 	
 }
