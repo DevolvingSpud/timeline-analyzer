@@ -2,11 +2,7 @@ package codesample.timeline;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -275,22 +271,21 @@ public class TestTimeline
 	
 		
 		//Case 1
-//		Event a = new NamedEvent("EventA", start);
-//		Event b = new NamedEvent("EventB", start);
-//		Event c = new NamedEvent("EventC", start);
-//		timeline.add(a);
-//		timeline.add(b);
-//		timeline.add(c);
-//		Iterator<Event> i = timeline.iterator();
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", start);
+		Event c = new NamedEvent("EventC", start);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		Iterator<Event> i = timeline.iterator();
 //		while(i.hasNext())
 //		{
 //			System.out.println(i.next()+"\n");
 //		}
-//		assertTrue(i.hasNext());
-//		i.next();
-//		i.next();
-////		System.out.println(i.next());
-//		assertTrue(i.hasNext());
+		assertTrue(i.hasNext());
+		i.next();
+		i.next();
+		assertTrue(i.hasNext());
 		
 		
 //		
@@ -313,13 +308,9 @@ public class TestTimeline
 //		{
 //			System.out.println(i.next()+"\n");
 //		}
-//		assertTrue(i.hasNext());
-//		System.out.println(i.next());
-//		i.next();
-//		assertTrue(i.hasNext());
-//		System.out.println(i.next());
-//		i.next();
-//		System.out.println(i.next());
+		i.next();
+		i.next();
+		assertTrue(i.hasNext());
 	}
 	
 	@Test
@@ -334,11 +325,11 @@ public class TestTimeline
 		i.next();
 		assertFalse(i.hasNext());
 		
-//		try{
-//			i.next();
-//			fail("fail");
-//		}
-//		catch(NoSuchElementException e){}
+		try{
+			i.next();
+			fail("fail");
+		}
+		catch(NoSuchElementException e){}
 	}
 
 	@Test 
@@ -374,6 +365,12 @@ public class TestTimeline
 		//<2004,12,25,0,0> : [Event]
 	
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		try
+		{
+			i.previous();
+			fail();
+		}
+		catch(NoSuchElementException e){}
 		assertTrue(i.hasNext());
 		assertFalse(i.hasPrevious());
 	}
@@ -387,7 +384,7 @@ public class TestTimeline
 		Event c = new NamedEvent("EventC", time);
 		timeline.add(b);
 		timeline.add(c);
-		//<2003,12,25,0,0> : [EventA][EventC]
+		//<2003,12,25,0,0> : [EventB][EventC]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
@@ -396,7 +393,7 @@ public class TestTimeline
 		assertTrue(i.hasPrevious());
 	}
 	@Test
-	public void testHavsPreviousEventIndex2() //case1: arranged differently.
+	public void testHasPreviousEventIndex2() //case1: arranged differently.
 	{
 		DateTime time1 = new DateTime(2004,12,25,0,0);
 		DateTime time2 = new DateTime(2005,12,25,0,0);
@@ -406,8 +403,8 @@ public class TestTimeline
 		Event d = new NamedEvent("EventD", time1);
 		Event e = new NamedEvent("EventE", time2);
 		Event f = new NamedEvent("EventF", time2);
-		Event g = new NamedEvent("EventF", time3);
-		Event h = new NamedEvent("EventF", time3);
+		Event g = new NamedEvent("EventG", time3);
+		Event h = new NamedEvent("EventH", time3);
 		timeline.add(b);
 		timeline.add(c);
 		timeline.add(d);
@@ -420,21 +417,26 @@ public class TestTimeline
 		//<2012,12,25,0,0>: [EventG][EventH]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+//		while(i.hasNext())
+//			{
+//				System.out.println(i.next()+"\n");
+//			}
 		
-		i.next();
-		i.next();
-		i.next();
-		i.next();
-		i.next();
-		i.next();
-		i.next();
-		i.previous();
-		i.previous();
-		i.previous();
-		i.previous();
-		i.previous();
-		i.previous();
-		assertTrue(i.hasPrevious());
+//		i.next();
+//		i.next();
+//		i.next();
+//		i.next();
+//		i.next();
+//		i.next();
+//		i.next();
+//		i.previous();
+//		i.previous();
+//		i.previous();
+//		i.previous();
+//		i.previous();
+//		i.previous();
+//		assertTrue(i.hasPrevious());
+		
 	}
 	
 	@Test
@@ -455,7 +457,6 @@ public class TestTimeline
 		
 		i.next();
 		assertTrue(i.hasPrevious());
-		System.out.println(i.previous());
 	}
 	
 	////****Tests for testPrevious()****\\\\
@@ -497,7 +498,7 @@ public class TestTimeline
 		i.previous(); //returns [EventC]
 		i.previous(); //return [EventB]
 		i.previous(); //return [EventA]
-		i.previous(); 
+//		i.previous(); 
 		
 		try{
 			i.previous(); 
@@ -548,29 +549,34 @@ public class TestTimeline
 		DateTime start = new DateTime(2003,12,25,0,0);
 		DateTime time1 = new DateTime(2004,12,25,0,0);
 		DateTime time2 = new DateTime(2005,12,25,0,0);
-		DateTime time3 = new DateTime(2012,12,25,0,0);
+		DateTime time3 = new DateTime(2006,12,25,0,0);
 		Event a = new NamedEvent("EventA", start);
 		Event b = new NamedEvent("EventB", time1);
 		Event c = new NamedEvent("EventC", time1);
 		Event d = new NamedEvent("EventD", time2);
 		Event e = new NamedEvent("EventE", time2);
 		Event f = new NamedEvent("EventF", time2);
-		Event g = new NamedEvent("EventF", time3);
-		Event h = new NamedEvent("EventF", time3);
+		Event q = new NamedEvent("EventQ", time3);
+		Event u = new NamedEvent("EventU", time3);
 		timeline.add(a);
 		timeline.add(b);
 		timeline.add(c);
 		timeline.add(d);
 		timeline.add(e);
 		timeline.add(f);
-		timeline.add(g);
-		timeline.add(h);
+		timeline.add(q);
+		timeline.add(u);
 		//<2003,12,25,0,0>: [EventA] 
 		//<2004,12,25,0,0>: [EventB][EventC]
 		//<2005,12,25,0,0>: [EventD][EventE][EventF]
-		//<2012,12,25,0,0>: [EventG][EventH]
+		//<2012,12,25,0,0>: [EventQ][EventU]
 		
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+//		
+//		while(i.hasNext())
+//		{
+//			System.out.println(i.next());
+//		}
 		
 		i.next(); //returns EventA
 		i.next(); //return EventB
@@ -578,10 +584,16 @@ public class TestTimeline
 		i.next(); //return EventD
 		i.next(); //return EventE
 		i.next(); //return EventF
-		i.next(); //return EvnetG
-		i.next(); //return EventH
-		i.previous(); //return EventH
-		i.previous(); //return EventG
+		i.next(); //return EventQ
+		i.next(); //return EventU
+		
+//		while (i.hasPrevious())
+//		{
+//			System.out.println(i.previous());
+//		}
+		
+		i.previous(); //return EventU
+		i.previous(); //return EventQ
 		i.previous(); //return EventF
 		i.previous(); //return EventE
 		i.previous(); //return EventD
@@ -589,12 +601,11 @@ public class TestTimeline
 		i.previous(); //return EventB
 		i.previous(); //return EventA
 		
-		try{
-			i.previous(); 
-			fail("fail");
-		}
-		catch (NoSuchElementException z){}
-		
+//		try{
+//			i.previous(); 
+//			fail("fail");
+//		}
+//		catch (NoSuchElementException z){}
 		
 	}
 	
