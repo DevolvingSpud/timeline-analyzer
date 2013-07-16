@@ -1,7 +1,12 @@
 package codesample.timeline;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -266,7 +271,6 @@ public class Timeline implements Collection<Event>
         	Event[] events = (Event[]) eventSet.toArray(new Event[0]);
         	
         	int nextEventIndex = 0;
-        	Event nextEvent = null;
             if (eventIndex < events.length)
             {
                nextEventIndex++;
