@@ -617,7 +617,10 @@ public class TestTimeline
 		timeline.add(a);
 		//<2003,12,25,0,0>: [EventA] 
 		
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
 		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
 		
 		assertEquals(0,i.nextIndex());
@@ -640,9 +643,36 @@ public class TestTimeline
 		i.nextIndex();
 		assertEquals(1,i.nextIndex());
 		
+<<<<<<< HEAD
+=======
 		
 	}
 	
+	//Case3
+	@Test
+	public void testNextIndexOnLastEvent()
+	{
+		DateTime start = new DateTime(2003,12,25,0,0);
+		DateTime time1 = new DateTime(2004,12,25,0,0);
+		Event a = new NamedEvent("EventA", start);
+		Event b = new NamedEvent("EventB", time1);
+		Event c = new NamedEvent("EventC", time1);
+		timeline.add(a);
+		timeline.add(b);
+		timeline.add(c);
+		//<2003,12,25,0,0>: [EventA] 
+		//<2004,12,25,0,0>: [EventB][EventC]
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
+		
+		ListIterator<Event> i = (ListIterator<Event>) timeline.iterator();
+		i.nextIndex();
+		i.nextIndex();
+		i.nextIndex();
+		
+		assertEquals(3,i.nextIndex());
+	}
+	
+<<<<<<< HEAD
 	//Case3
 	@Test
 	public void testNextIndexOnLastEvent()
@@ -676,6 +706,40 @@ public class TestTimeline
 	}
 	@Test
 	public void testPreviousIndexNotInSameSet() //Case2: test for index previous in another set.
+=======
+		////****Tests for previousIndex()****\\\\
+
+	@Test
+	public void testPreviousIndexInSameSet() //Case1: test for index previous in same set.
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testPreviousIndexNotInSameSet() //Case2: test for index previous in another set.
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testPreviousIndexOnFirstEvent() //Case3: test for index previous on first event, which should fail.
+	{
+		
+		
+		
+		try
+		{
+			i.previous();
+			fail("fail");
+		}
+		catch (NoSuchElementException e){}
+	}
+	
+		////****Tests for IterRemove****\\\\
+	
+	@Test
+	public void testIterRemoveStart() //remove the first event
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
 	{
 		fail("fail");
 
@@ -690,13 +754,9 @@ public class TestTimeline
 		////****Tests for IterRemove****\\\\
 	
 	@Test
+<<<<<<< HEAD
 	public void testIterRemoveStart() //remove the first event
-	{
-		fail("fail");
-
-	}
-	
-	@Test
+=======
 	public void testIterRemoveLast() //remove the last event
 	{
 		fail("fail");
@@ -704,16 +764,36 @@ public class TestTimeline
 	}
 	@Test
 	public void testIterRemoveFromSetOfOne() //remove from a set with one event in it.
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
 	{
 		fail("fail");
 
 	}
+	@Test
+<<<<<<< HEAD
+	public void testIterRemoveLast() //remove the last event
+	{
+		fail("fail");
+
+	}
+	@Test
+	public void testIterRemoveFromSetOfOne() //remove from a set with one event in it.
+=======
+	public void testIterRemoveFromSetOfMany() //remove from a set with many events in it.
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
+	{
+		fail("fail");
+
+	}
+<<<<<<< HEAD
 	@Test
 	public void testIterRemoveFromSetOfMany() //remove from a set with many events in it.
 	{
 		fail("fail");
 
 	}
+=======
+>>>>>>> 2eed06594cf9c8093077d6f0a3353e3582aa1d82
 	
 		////****Tests for IterAdd()****\\\\
 	
