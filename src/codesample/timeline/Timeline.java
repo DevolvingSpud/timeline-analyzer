@@ -262,7 +262,7 @@ public class Timeline implements Collection<Event>
 		@Override
         public int nextIndex() //of the all the events or just the events in a particular set.
         {
-			// John
+			// John99
 			return 0;
 			
         }
