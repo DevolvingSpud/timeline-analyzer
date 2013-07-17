@@ -46,7 +46,7 @@ public class NamedEvent extends AbstractEvent implements Event {
 
 	@Override
 	public String toString() {
-		return "Event Name: " + _name + "]";
+		return "Event Name: "+_name;
 	}
 	
 	
